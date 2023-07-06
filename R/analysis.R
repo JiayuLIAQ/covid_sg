@@ -73,6 +73,7 @@ dt_jfp_cases[, cases_jfp := cases - shift(cases)]
 dt_jfp_cases[1, cases_jfp := 7]
 
 dt_jfp_cases[dt_covid, on = "date"] %>% 
+  .[date > ymd("2021-06-15") & date < ymd("2021-09-15")] %>%
   .[is.na(cases_jfp), cases_jfp := 0] %>%
   .[, non_jfp_cases := local_cases_not_residing_in_doms_moh_report- cases_jfp] %>% #[date > ymd("2021-06-15") & date < ymd("2021-06-15")] %>%
   .[, c(
@@ -107,7 +108,7 @@ dt_jfp_cases[dt_covid, on = "date"] %>%
   scale_x_date("Date in 2021", breaks = ymd(c("2021-07-16", "2021-07-02", "2021-07-31", "2021-08-14")), date_labels = "%b %d") +
   LJYtheme_basic +
   guides(fill=guide_legend(nrow=2,byrow=TRUE)) +
-  theme(legend.position = "top")
+  theme(legend.position = "bottom")
 
 ggsave("plots/JFP_clusters.pdf", height = 5, width = 8)
-ggsave("plots/JFP_clusters.png", height = 5, width = 6)
+ggsave("plots/JFP_clusters.png", height = 5, width = 8)
